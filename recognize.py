@@ -2,12 +2,13 @@ import cv2
 import numpy as np 
 from matplotlib import pyplot as plt 
 
-img = cv2.imread('orange2.jpg', 0)
+img = cv2.imread('find.JPG', 0)
 img2 = img.copy()
-template = cv2.imread('orange.png',0)
+template = cv2.imread('small.JPG',0)
 w, h = template.shape[::-1]
 # adjust these for which ever one works best
-methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+# methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+methods = ['cv2.TM_CCOEFF']
 
 for meth in methods:
 	img = img2.copy()
@@ -24,8 +25,9 @@ for meth in methods:
 		top_left = max_loc
 	bottom_right = (top_left[0] + w, top_left[1] + h)
 
-	# show rectangle of where the X is 
-	cv2.rectangle(img,top_left, bottom_right, 255, 2)
+	# show rectangle of where the target is 
+	# cv2.rectangle(img,top_left, bottom_right, 255, 2)
+	cv2.rectangle(img,top_left,bottom_right,(0,200,50),10)
 
 	plt.subplot(121),plt.imshow(res,cmap = 'gray')
 	plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
