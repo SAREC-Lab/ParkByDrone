@@ -33,6 +33,7 @@ resized = imutils.resize(image, width=300)
 ratio = image.shape[0] / float(resized.shape[0])
 
 # Convert input image to HSV
+print image
 hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
 # define range of blue color in HSV
@@ -49,5 +50,3 @@ cv2.imshow('image',image)
 cv2.imshow('blueMask',blueMask)
 cv2.imshow('result',result)
 cv2.waitKey(0)
-
-

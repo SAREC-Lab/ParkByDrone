@@ -2,6 +2,7 @@ import cv2
 import numpy as np 
 from matplotlib import pyplot as plt 
 import sys
+import imutils
 # from pyimagesearch.shapedetector import ShapeDetector
 
 
@@ -13,6 +14,8 @@ class CVision(object):
 		self.width = None
 		self.height = None
 		self.plot = False
+		self.image_str = image
+		self.template_str = template
 		self.set_image(image)
 		self.set_template(template)
 		# self.methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
@@ -20,13 +23,13 @@ class CVision(object):
 
 	def set_image(self, image):
 		# so the interface can change the images
-		if self.image is None:
+		if self.image is None and image is not None:
 			self.image = cv2.imread(image,0)
 			self.image2 = self.image.copy()
 
 	def set_template(self, template):
 		# so the interface can change the template
-		if self.template is None:
+		if self.template is None and template is not None:
 			self.template = cv2.imread(template,0)
 			self.width, self.height = self.template.shape[::-1]
 
@@ -62,8 +65,24 @@ class CVision(object):
 			plt.show()
 
 		return top_left, bottom_right
-		
+
+	def prep_image(self):
+		copy = cv2.imread(self.image_str)
+		# Convert input image to HSV
+		hsv_image = cv2.cvtColor(copy, cv2.COLOR_BGR2HSV)
+		# define range of blue color in HSV
+		lower_blue = np.array([110,50,50])
+		upper_blue = np.array([130,255,255])
+		# Threshold the HSV image to get only blue colors
+		blueMask = cv2.inRange(hsv_image, lower_blue, upper_blue)
+		# Bitwise-AND mask and original image
+		result = cv2.bitwise_and(copy,copy, mask= blueMask)
+		# cv2.imshow('result', result)
+		# cv2.waitKey(0)
+		return result
+
 if __name__ == "__main__":
 	vision = CVision(sys.argv[1], sys.argv[2])
 	# vision.plot = False
-	vision.find_image()
+	# vision.find_image()
+	vision.prep_image()
