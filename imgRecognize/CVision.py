@@ -95,6 +95,11 @@ class CVision(object):
 		if image is not None:
 			cv2.imwrite(name, image)
 
+	def get_image_size(self):
+		if self.image is None:
+			return -1,-1
+		return self.image.shape
+
 if __name__ == "__main__":
 	if len(sys.argv) < 3:
 		print "usage: python CVision.py template target"
@@ -102,7 +107,7 @@ if __name__ == "__main__":
 	vision = CVision(sys.argv[1], sys.argv[2])
 	i = vision.prep_image()
 	vision.save_image(i, 'out.png')
-	vision.find_image('out.png')
-
-
+	vision.plot = True
+	x,y = vision.find_image('out.png')
+	print x,y
 
