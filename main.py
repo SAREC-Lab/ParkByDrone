@@ -13,7 +13,6 @@ class location(object): # temp class, simulating the dronekit location one
 loc = location(4.12, 43.8)
 
 vision = CVision('./photos/orange.png', './photos/blue.jpg')
-# TODO: what to do if none found?
 lat, lon = vision.get_coordinates(10, loc)
 print lat, lon
 # drone fly to lat, lon
