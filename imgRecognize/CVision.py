@@ -11,7 +11,6 @@ from matplotlib import pyplot as plt
 import sys
 import os
 import math
-# import imutils
 
 # Example use: python CVision.py small.jpg find.JPG
 
@@ -37,6 +36,7 @@ class CVision(object):
 			self.image2 = self.image.copy()
 
 	def set_template(self, template):
+		print template
 		# so the interface can change the template
 		if template is not None and os.path.exists(template):
 			self.template = cv2.imread(template,0)
@@ -47,13 +47,24 @@ class CVision(object):
 			self.set_image(image)
 		if image is None and self.image is None:
 			return -1, -1 # return nothing
-		for m in self.methods:
-			# self.image = self.image2.copy()
-			tl, br = self.use_method(m)
-			# find center of image from top_left and bottom_right
-			x = (tl[0] + br[0])/2 
-			y = (tl[1] + tl[1])/2
+		# preps image to make it easier to use
+		self.save_image(self.prep_image())
+		self.image = cv2.imread('out.png')
+		self.template = cv2.imread(self.template_str)
+
+		# TODO: find if there is any of the target color in photo?
+
+		# for m in self.methods:
+		tl, br = self.use_method(self.methods[0])
+		# find center of image from top_left and bottom_right
+		x = (tl[0] + br[0])/2 
+		y = (tl[1] + tl[1])/2
+		# if no picture is found
+		if x is not 0 and y is not 0:
 			return x,y
+		pic_width, pic_height = self.get_image_size()[:2]
+		# if no picture is found then return the center of image
+		return pic_width/2, pic_height/2
 
 	def use_method(self, meth):
 		method = eval(meth)
@@ -104,7 +115,6 @@ class CVision(object):
 		return self.image.shape
 
 	def get_coordinates(self, height, current_location):
-		# vision = CVision('photos/target.JPG', 'photos/capture.png')
 		pic_height, pic_width = self.get_image_size()
 		self.plot = True
 		x,y = self.find_image()
