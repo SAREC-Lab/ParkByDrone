@@ -26,5 +26,5 @@ print lat, lon
 if lat is loc.latitude and lon is loc.longitude:
 	pass
 	# keep flying like it was (not found)
-# drone fly to lat, lon
 
+# drone fly to lat, lon
