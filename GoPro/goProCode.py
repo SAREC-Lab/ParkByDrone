@@ -16,7 +16,8 @@ print("taking photo")
 url_response = urllib2.urlopen('http://localhost:8080?key=setRecordingOn&value=true')
 time.sleep(5)
 
-urllib.urlretrieve("http://10.5.5.9:8080/videos/DCIM/100GOPRO/GOPR0052.JPG", "localPicutre.jpg")
+photo_number = 52
+urllib.urlretrieve("http://10.5.5.9:8080/videos/DCIM/100GOPRO/GOPR00 {} .JPG".format(photo_number), "localPicutre.jpg")
 
 
 #photoFile = urllib2.urlopen('http://localhost:8080?key=getLastCapturedMediaItem')
