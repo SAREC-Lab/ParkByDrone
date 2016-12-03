@@ -11,7 +11,7 @@ from matplotlib import pyplot as plt
 import sys
 import os
 import math
-import imutils
+# import imutils
 
 # Example use: python CVision.py small.jpg find.JPG
 
@@ -32,13 +32,13 @@ class CVision(object):
 
 	def set_image(self, image):
 		# so the interface can change the images
-		if image is not None:
+		if image is not None and os.path.exists(image):
 			self.image = cv2.imread(image,0)
 			self.image2 = self.image.copy()
 
 	def set_template(self, template):
 		# so the interface can change the template
-		if template is not None:
+		if template is not None and os.path.exists(template):
 			self.template = cv2.imread(template,0)
 			self.width, self.height = self.template.shape[::-1]
 
@@ -50,8 +50,10 @@ class CVision(object):
 		for m in self.methods:
 			# self.image = self.image2.copy()
 			tl, br = self.use_method(m)
-			# print tl, br
-			return tl, br
+			# find center of image from top_left and bottom_right
+			x = (tl[0] + br[0])/2 
+			y = (tl[1] + tl[1])/2
+			return x,y
 
 	def use_method(self, meth):
 		method = eval(meth)
@@ -69,10 +71,10 @@ class CVision(object):
 		# plot result if self.plot is set to True
 		if self.plot:
 			# show rectangle of where the target is 
-			cv2.rectangle(self.image, top_left, bottom_right, (0,200,50), 10)
-			plt.subplot(121), plt.imshow(res,cmap = 'gray')
+			cv2.rectangle(res, top_left, bottom_right, (0,200,50), 5)
+			plt.subplot(121), plt.imshow(res)
 			plt.title('Matching Result'), plt.xticks([]), plt.yticks([])
-			plt.subplot(122), plt.imshow(self.image,cmap = 'gray')
+			plt.subplot(122), plt.imshow(self.image)
 			plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
 			plt.suptitle(meth)
 			plt.show()
@@ -107,8 +109,8 @@ class CVision(object):
 		self.plot = True
 		x,y = self.find_image()
 		# now convert from m to degrees
-		dw = self.get_dwidth(height, pic_width, x[0]) / 1.113195e5
-		dh = self.get_dheight(height, pic_height, x[1]) / 1.113195e5
+		dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
+		dh = self.get_dheight(height, pic_height, y) / 1.113195e5
 		return current_location.latitude + dw, current_location.longitude + dh
 
 	def get_dwidth(self, height, pic_width, x):
@@ -150,6 +152,6 @@ if __name__ == "__main__":
 	# vision.plot = True
 	# x,y = vision.find_image('out.png')
 	# print x,y
-	loc = location(4.12, 43.8)
-	print vision.get_coordinates(10, loc)
+	# loc = location(4.12, 43.8)
+	# print vision.get_coordinates(10, loc)
 
