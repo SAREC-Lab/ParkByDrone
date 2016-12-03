@@ -36,7 +36,6 @@ class CVision(object):
 			self.image2 = self.image.copy()
 
 	def set_template(self, template):
-		print template
 		# so the interface can change the template
 		if template is not None and os.path.exists(template):
 			self.template = cv2.imread(template,0)
@@ -49,16 +48,15 @@ class CVision(object):
 			return -1, -1 # return nothing
 		# preps image to make it easier to use
 		self.save_image(self.prep_image())
-		self.image = cv2.imread('out.png')
+		self.image = cv2.imread('temp.png')
 		self.template = cv2.imread(self.template_str)
 
-		# TODO: find if there is any of the target color in photo?
-
-		# for m in self.methods:
 		tl, br = self.use_method(self.methods[0])
 		# find center of image from top_left and bottom_right
 		x = (tl[0] + br[0])/2 
 		y = (tl[1] + tl[1])/2
+		# remove temp photo temp.png
+		os.remove('temp.png')
 		# if no picture is found
 		if x is not 0 and y is not 0:
 			return x,y
@@ -105,7 +103,7 @@ class CVision(object):
 		result = cv2.bitwise_and(copy,copy, mask= blueMask)
 		return result
 
-	def save_image(self, image, name = 'out.png'):
+	def save_image(self, image, name = 'temp.png'):
 		if image is not None:
 			cv2.imwrite(name, image)
 
@@ -116,7 +114,7 @@ class CVision(object):
 
 	def get_coordinates(self, height, current_location):
 		pic_height, pic_width = self.get_image_size()
-		self.plot = True
+		# self.plot = True
 		x,y = self.find_image()
 		# now convert from m to degrees
 		dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
