@@ -16,7 +16,7 @@ if not os.path.isfile('./localPicture.jpg'):
 	exit(1)
 vision = CVision('./localPicture.jpg', './imgRecognize/target.JPG')
 test = LocationGlobalRelative(41.000,42.000,0)
-lat, lon = vision.get_coordinates(target_altitude, test)
+lat, lon = vision.get_coordinates(30, test)
 print lat
 print lon
 
