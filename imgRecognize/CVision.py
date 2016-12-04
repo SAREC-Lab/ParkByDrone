@@ -151,15 +151,13 @@ class location(object):
 		self.longitude = lon
 
 if __name__ == "__main__":
-
-
-
 	if len(sys.argv) < 3:
 		print "usage: python CVision.py template target"
 		exit(1)
 	vision = CVision(sys.argv[1], sys.argv[2])
-	cv2.imshow('vision.image after initializing with first arg = image, 2nd = template', vision.image)
-	cv2.waitKey()
+	vision.find_image()
+	# cv2.imshow('vision.image after initializing with first arg = image, 2nd = template', vision.image)
+	# cv2.waitKey()
 	# i = vision.prep_image()
 	# vision.save_image(i, 'out.png')
 	# vision.plot = True
