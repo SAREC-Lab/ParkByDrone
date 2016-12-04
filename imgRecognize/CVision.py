@@ -119,7 +119,7 @@ class CVision(object):
 		# now convert from m to degrees
 		dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
 		dh = self.get_dheight(height, pic_height, y) / 1.113195e5
-		return current_location.latitude + dw, current_location.longitude + dh
+		return current_location.lat + dw, current_location.lon + dh
 
 	def get_dwidth(self, height, pic_width, x):
 		# uses FOV angle to find the real life distance of half the picture
