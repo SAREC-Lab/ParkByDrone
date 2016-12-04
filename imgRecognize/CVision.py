@@ -21,7 +21,7 @@ class CVision(object):
 		self.template = None
 		self.width = None
 		self.height = None
-		self.plot = False
+		self.plot = True
 		self.image_str = image
 		self.template_str = template
 		self.set_image(image)
