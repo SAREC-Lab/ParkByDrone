@@ -1,8 +1,14 @@
+from Naked.toolshed.shell import execute_js, muterun_js
+import urllib2
+import urllib
+import time
+from PIL import Image
+
 class GoPro(object):
 	def __init__(self):
 		# static variable that all GoPro instances share
-		with open('imageNumber.txt') as f:
-			GoPro.photo_number = f.read()
+		with open('./GoPro/imageNumber.txt') as f:
+			GoPro.photo_number = int(f.read())
 
 	def take_picture(self):
 		print("taking photo")

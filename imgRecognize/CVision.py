@@ -33,7 +33,7 @@ class CVision(object):
 		# so the interface can change the images
 		if image is not None and os.path.exists(image):
 			self.image = cv2.imread(image,0)
-			self.image2 = self.image.copy()
+			# self.image2 = self.image.copy()
 
 	def set_template(self, template):
 		# so the interface can change the template
