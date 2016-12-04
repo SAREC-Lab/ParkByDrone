@@ -5,6 +5,7 @@
 #			 the coordinates.					       #
 ########################################################
 
+import imutils
 import cv2
 import numpy as np 
 from matplotlib import pyplot as plt 
@@ -29,45 +30,54 @@ class CVision(object):
 		# self.methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
 		self.methods = ['cv2.TM_CCOEFF']
 
-	def set_image(self, image):
+	def set_image(self, image, gray = True):
 		# so the interface can change the images
 		if image is not None and os.path.exists(image):
-			self.image = cv2.imread(image,0)
+			if gray:
+				self.image = cv2.imread(image, 0)
+			else:
+				self.image = cv2.imread(image)
 			# self.image2 = self.image.copy()
 
-	def set_template(self, template):
+	def set_template(self, template, gray = True):
 		# so the interface can change the template
 		if template is not None and os.path.exists(template):
-			self.template = cv2.imread(template,0)
-			self.width, self.height = self.template.shape[::-1]
+			if gray:
+				self.template = cv2.imread(template, 0)
+			else:
+				self.template = cv2.imread(template)
+			imutils.resize(self.template, width = 300)
+			self.width, self.height = self.template.shape[:2]
 
 	def find_image(self, image = None):
 		if image is not None:
 			self.set_image(image)
 		if image is None and self.image is None:
 			return -1, -1 # return nothing
+
 		# preps image to make it easier to use
-		self.save_image(self.prep_image())
-		self.image = cv2.imread('temp.png')
-		self.template = cv2.imread(self.template_str)
+		self.save_image(self.prep_image(), name = 'temp.png')
+		self.set_image('temp.png', gray = False)
+		self.set_template(self.template_str, gray = False)
 
 		tl, br = self.use_method(self.methods[0])
+		# remove temp photo temp.png
+		os.remove('temp.png')
+
 		# find center of image from top_left and bottom_right
 		x = (tl[0] + br[0])/2 
 		y = (tl[1] + tl[1])/2
-		# remove temp photo temp.png
-		os.remove('temp.png')
 		# if no picture is found
 		if x is not 0 and y is not 0:
 			return x,y
-		pic_width, pic_height = self.get_image_size()[:2]
+		pic_width, pic_height = self.get_image_size()
 		# if no picture is found then return the center of image
 		return pic_width/2, pic_height/2
 
 	def use_method(self, meth):
 		method = eval(meth)
 		# Apply template Matching
-		res = cv2.matchTemplate(self.image, self.template, 4)
+		res = cv2.matchTemplate(self.image, self.template, method)
 		min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
 		# If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
@@ -110,7 +120,7 @@ class CVision(object):
 	def get_image_size(self):
 		if self.image is None:
 			return -1,-1
-		return self.image.shape
+		return self.image.shape[:2]
 
 	def get_coordinates(self, height, current_location):
 		pic_height, pic_width = self.get_image_size()
@@ -155,7 +165,7 @@ if __name__ == "__main__":
 		print "usage: python CVision.py template target"
 		exit(1)
 	vision = CVision(sys.argv[1], sys.argv[2])
-	vision.find_image()
+	print vision.find_image()
 	# cv2.imshow('vision.image after initializing with first arg = image, 2nd = template', vision.image)
 	# cv2.waitKey()
 	# i = vision.prep_image()
