@@ -6,7 +6,7 @@ import math
 # Coordinates of the SB flying club
 SB_Lat = 41.519205
 SB_Lon = -86.239949
-connection_string = "127.0.0.1:14550"
+connection_string = "/dev/ttyUSB0,57600"
 target_altitude = 30
 
 def create_vehicle():
@@ -97,6 +97,7 @@ if __name__ == "__main__":
 	time.sleep(30)
 
 	vehicle.mode = VehicleMode("LAND")
+	time.sleep(10)
 	vehicle.close()
 
 	print("Program Complete")
