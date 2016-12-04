@@ -18,11 +18,10 @@ import math
 class CVision(object):
 	def __init__(self, image = None, template = None):
 		self.image = None
-		self.image2 = None
 		self.template = None
 		self.width = None
 		self.height = None
-		self.plot = True
+		self.plot = False
 		self.image_str = image
 		self.template_str = template
 		self.set_image(image)
@@ -37,7 +36,7 @@ class CVision(object):
 				self.image = cv2.imread(image, 0)
 			else:
 				self.image = cv2.imread(image)
-		else:
+		elif image is not None:
 			print "{} not image found".format(image)
 			exit(1)
 
@@ -50,7 +49,7 @@ class CVision(object):
 				self.template = cv2.imread(template)
 			imutils.resize(self.template, width = 300)
 			self.width, self.height = self.template.shape[:2]
-		else:
+		elif template is not None:
 			print "{} not image found".format(template)
 			exit(1)
 
@@ -65,16 +64,14 @@ class CVision(object):
 		self.set_image('temp.png', gray = False)
 		self.set_template(self.template_str, gray = False)
 
-		tl, br = self.use_method(self.methods[0])
-		# remove temp photo temp.png
-		# os.remove('temp.png')
-
-		# find center of image from top_left and bottom_right
-		x = (tl[0] + br[0])/2 
-		y = (tl[1] + tl[1])/2
+		for m in self.methods:
+			tl, br = self.use_method(m)
+			# remove temp photo temp.png
+			# os.remove('temp.png')
+			# print tl
 		# if no picture is found
-		if x is not 0 and y is not 0:
-			return x,y
+		if tl[0] is not 0 and tl[1] is not 0:
+			return tl
 		pic_width, pic_height = self.get_image_size()
 		# if no picture is found then return the center of image
 		return pic_width/2, pic_height/2
@@ -86,11 +83,15 @@ class CVision(object):
 		min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
 
 		# If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
-		if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
-			top_left = min_loc
-		else:
+		# if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
+		# 	top_left = min_loc
+		# else:
+		# 	top_left = max_loc
+		if method in [cv2.TM_CCOEFF]:
 			top_left = max_loc
-		bottom_right = (top_left[0] + self.width, top_left[1] + self.height)
+			bottom_right = top_left
+		else:
+			bottom_right = (top_left[0] + self.width, top_left[1] + self.height)
 
 		# plot result if self.plot is set to True
 		if self.plot:
@@ -131,7 +132,6 @@ class CVision(object):
 		pic_height, pic_width = self.get_image_size()
 		self.plot = True
 		x,y = self.find_image()
-		print x,y
 		# now convert from m to degrees
 		dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
 		dh = self.get_dheight(height, pic_height, y) / 1.113195e5
@@ -160,11 +160,6 @@ class CVision(object):
 		dh = y - center
 		# returns the actual vertical distance from found target
 		return dh * ratio
-
-# class location(object):
-# 	def __init__(self, lat, lon):
-# 		self.lat = lat
-# 		self.lon = lon
 
 if __name__ == "__main__":
 	if len(sys.argv) < 3:

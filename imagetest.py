@@ -23,9 +23,8 @@ class Location(object):
 vision = CVision('./imgProcess/testParkingLot.png', './photos/target.JPG')
 # test = LocationGlobalRelative(41.000,42.000,0)
 test = Location(41.00, 42.00, 0)
-lat, lon = vision.get_coordinates(30, test)
-print lat
-print lon
+print vision.get_coordinates(30, test)
+
 
 # open_spot_location = LocationGlobalRelative(lat, lon, 10)
 
