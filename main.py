@@ -6,8 +6,8 @@ import math
 # Coordinates of the SB flying club
 SB_Lat = 41.519205
 SB_Lon = -86.239949
-connection_string = "/dev/ttyUSB0,57600"
-target_altitude = 30
+connection_string = "/dev/ttyACM0,57600"
+target_altitude = 0
 
 def create_vehicle():
 	# Connect to the Vehicle. 
@@ -37,10 +37,8 @@ def create_vehicle():
 	vehicle.armed = True    
 
 	# Confirm vehicle armed before attempting to take off
-	while not vehicle.armed:      
-	    print " Waiting for arming..."
-	    time.sleep(1)
-
+	      
+	
 	print "Taking off!"
 	vehicle.simple_takeoff(3) # Take off to target altitude
 	# Wait until the vehicle reaches a safe height before processing the goto (otherwise the command 
@@ -63,14 +61,14 @@ if __name__ == "__main__":
 
 	vehicle = create_vehicle()
 	photo_location = LocationGlobalRelative(SB_Lat, SB_Lon, 30)
-	vehicle.simple_goto(photo_location)
+	#vehicle.simple_goto(photo_location)
 
-	dist = get_distance_metres(vehicle.location.global_frame, photo_location)
-	while(dist > 5):
-		print "Distance To Location:", dist
-		time.sleep(3)
-		dist = get_distance_metres(vehicle.location.global_frame, photo_location)
-	print "Arrived At Photo Location"
+	#dist = get_distance_metres(vehicle.location.global_frame, photo_location)
+	#while(dist > 5):
+	#	print "Distance To Location:", dist
+	#	time.sleep(3)
+	#	dist = get_distance_metres(vehicle.location.global_frame, photo_location)
+	#print "Arrived At Photo Location"
 
 	##############################################################################################
 	# TAKE PHOTO - At this point, drone should be hovering 30 metres above the specificed location
@@ -87,14 +85,14 @@ if __name__ == "__main__":
 
 
 	open_spot_location = LocationGlobalRelative(lat, lon, 10)
-	vehicle.simple_goto(open_spot_location)
-	dist = get_distance_metres(vehicle.location.global_frame, open_spot_location)
-	while(dist > 5):
-		print "Distance To Open Spot:", dist
-		time.sleep(3)
-		dist = get_distance_metres(vehicle.location.global_frame, open_spot__location)
-	print "Arrived At Open Spot"
-	time.sleep(30)
+	#vehicle.simple_goto(open_spot_location)
+	#dist = get_distance_metres(vehicle.location.global_frame, open_spot_location)
+	#while(dist > 5):
+	#	print "Distance To Open Spot:", dist
+	#	time.sleep(3)
+	#	dist = get_distance_metres(vehicle.location.global_frame, open_spot__location)
+	#print "Arrived At Open Spot"
+	#time.sleep(30)
 
 	vehicle.mode = VehicleMode("LAND")
 	time.sleep(10)

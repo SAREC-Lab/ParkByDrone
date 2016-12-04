@@ -1,9 +1,12 @@
+import urllib2
+import urllib
+import time
 class GoPro(object):
 	def __init__(self):
 		# static variable that all GoPro instances share
-		with open('imageNumber.txt') as f:
-			GoPro.photo_number = f.read()
-
+		with open('GoPro/imageNumber.txt') as f:
+			GoPro.photo_number = int(f.read())
+			
 	def take_picture(self):
 		print("taking photo")
 		url_response = urllib2.urlopen('http://localhost:8080?key=setRecordingOn&value=true')
