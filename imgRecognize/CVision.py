@@ -32,16 +32,15 @@ class CVision(object):
 
 	def set_image(self, image, gray = True):
 		# so the interface can change the images
-		if image is not None and os.path.exists(image):
+		if image is not None and os.path.isfile(image):
 			if gray:
 				self.image = cv2.imread(image, 0)
 			else:
 				self.image = cv2.imread(image)
-			# self.image2 = self.image.copy()
 
 	def set_template(self, template, gray = True):
 		# so the interface can change the template
-		if template is not None and os.path.exists(template):
+		if template is not None and os.path.isfile(template):
 			if gray:
 				self.template = cv2.imread(template, 0)
 			else:
@@ -51,10 +50,9 @@ class CVision(object):
 
 	def find_image(self, image = None):
 		if image is not None:
-			self.set_image(image)
+			self.set_image(image, gray = True)
 		if image is None and self.image is None:
 			return -1, -1 # return nothing
-
 		# preps image to make it easier to use
 		self.save_image(self.prep_image(), name = 'temp.png')
 		self.set_image('temp.png', gray = False)
@@ -62,7 +60,7 @@ class CVision(object):
 
 		tl, br = self.use_method(self.methods[0])
 		# remove temp photo temp.png
-		os.remove('temp.png')
+		# os.remove('temp.png')
 
 		# find center of image from top_left and bottom_right
 		x = (tl[0] + br[0])/2 
@@ -124,7 +122,7 @@ class CVision(object):
 
 	def get_coordinates(self, height, current_location):
 		pic_height, pic_width = self.get_image_size()
-		# self.plot = True
+		self.plot = True
 		x,y = self.find_image()
 		# now convert from m to degrees
 		dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
@@ -155,10 +153,10 @@ class CVision(object):
 		# returns the actual vertical distance from found target
 		return dh * ratio
 
-class location(object):
-	def __init__(self, lat, lon):
-		self.latitude = lat
-		self.longitude = lon
+# class location(object):
+# 	def __init__(self, lat, lon):
+# 		self.lat = lat
+# 		self.lon = lon
 
 if __name__ == "__main__":
 	if len(sys.argv) < 3:

@@ -17,20 +17,20 @@ class VisionTest(unittest.TestCase):
 
 	def test_set_image(self):
 		vision = CVision()
-		vision.set_image('imgRecognize/orange2.jpg')
+		vision.set_image('imgRecognize/orange2.jpg', gray = True)
 		self.assertEqual(vision.image.all(), cv2.imread('imgRecognize/orange2.jpg', 0).all())
 
 		vision = CVision('imgRecognize/orange.png', 'imgRecognize/find.JPG')
-		vision.set_image('imgRecognize/small.jpg')
+		vision.set_image('imgRecognize/small.jpg', gray = True)
 		self.assertEqual(vision.image.all(), cv2.imread('imgRecognize/small.jpg', 0).all())
 
 	def test_set_template(self):
 		vision = CVision()
-		vision.set_template('imgRecognize/orange2.jpg')
+		vision.set_template('imgRecognize/orange2.jpg', gray = True)
 		self.assertEqual(vision.template.all(), cv2.imread('imgRecognize/orange2.jpg', 0).all())
 
 		vision = CVision('imgRecognize/orange.png', 'imgRecognize/find.JPG')
-		vision.set_template('imgRecognize/small.jpg')
+		vision.set_template('imgRecognize/small.jpg', gray = True)
 		self.assertEqual(vision.template.all(), cv2.imread('imgRecognize/small.jpg', 0).all())
 
 	def test_find_image(self):
