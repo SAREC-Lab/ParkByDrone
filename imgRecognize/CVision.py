@@ -37,6 +37,9 @@ class CVision(object):
 				self.image = cv2.imread(image, 0)
 			else:
 				self.image = cv2.imread(image)
+		else:
+			print "{} not image found".format(image)
+			exit(1)
 
 	def set_template(self, template, gray = True):
 		# so the interface can change the template
@@ -47,6 +50,10 @@ class CVision(object):
 				self.template = cv2.imread(template)
 			imutils.resize(self.template, width = 300)
 			self.width, self.height = self.template.shape[:2]
+		else:
+			print "{} not image found".format(template)
+			exit(1)
+
 
 	def find_image(self, image = None):
 		if image is not None:
@@ -124,6 +131,7 @@ class CVision(object):
 		pic_height, pic_width = self.get_image_size()
 		self.plot = True
 		x,y = self.find_image()
+		print x,y
 		# now convert from m to degrees
 		dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
 		dh = self.get_dheight(height, pic_height, y) / 1.113195e5

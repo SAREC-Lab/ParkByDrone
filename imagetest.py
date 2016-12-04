@@ -20,7 +20,7 @@ class Location(object):
 # if not os.path.isfile('localPicture.jpg'):
 # 	print "Error: image not downloaded correctly"
 # 	exit(1)
-vision = CVision('../localPicture.jpg', 'imgRecognize/small.jpg')
+vision = CVision('./imgProcess/testParkingLot.png', './photos/target.JPG')
 # test = LocationGlobalRelative(41.000,42.000,0)
 test = Location(41.00, 42.00, 0)
 lat, lon = vision.get_coordinates(30, test)
