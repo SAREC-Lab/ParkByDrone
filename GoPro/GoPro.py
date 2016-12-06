@@ -2,6 +2,7 @@ from Naked.toolshed.shell import execute_js, muterun_js
 import urllib2
 import urllib
 import time
+import os
 from PIL import Image
 
 class GoPro(object):
@@ -11,12 +12,17 @@ class GoPro(object):
 			GoPro.photo_number = int(f.read())
 
 	def __del__(self):
-		# writes a the new image number to a file so next time the instance can retrieve
-		# the correct photo from the GoPro server
-		with open('imageNumber.txt') as f:
-			f.seek(0)
-			f.write(GoPro.photo_number)
+		# writes a the new image number to a file so next time the instance can retrieve the correct photo from the GoPro server
+                os.remove('./GoPro/imageNumber.txt')
+                num = self.get_photo_number()
+                string = str(num)
+		f = open("./GoPro/imageNumber.txt","w")
+                f.write(string)
+                f.close()
 
+        def get_photo_number(self):
+                return self.photo_number
+        
 	def take_picture(self):
 		# sends post request to go pro server to take a picture
 		print("taking photo")
@@ -27,5 +33,5 @@ class GoPro(object):
 	def download_photo(self):
 		# sends get requets to go pro server to retrieve a photo
 		imgLocation = "http://10.5.5.9:8080/videos/DCIM/100GOPRO/GOPR00"+str(GoPro.photo_number)+".JPG"	
-		print imgLocation
+		#print imgLocation
 		urllib.urlretrieve(imgLocation, "localPicture.jpg")

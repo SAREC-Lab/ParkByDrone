@@ -4,16 +4,16 @@ from GoPro import GoPro
 import os
 
 class Location(object):
-	def __init__(self, lat, lon, h):
+        def __init__(self, lat, lon, h):
 		self.lat = lat
 		self.lon = lon
 		self.height = h
- go = GoPro()
- if os.path.isfile('./localPicture.png'):
- 	os.remove('./localPicture.png')	
- go.take_picture()
+        go = GoPro()
+        if os.path.isfile('./localPicture.png'):
+                os.remove('./localPicture.png')	
+        go.take_picture()
 # Dowloads into the file "localPicture.png"
- go.download_photo()
+go.download_photo()
 #######################################################################$
 # Pass Photo To Image Recognition
 #######################################################################$
@@ -24,6 +24,8 @@ class Location(object):
 # test = LocationGlobalRelative(41.000,42.000,0)
 test = Location(41.00, 42.00, 0)
 print vision.get_coordinates(30, test)
+
+# go.close()
 
 # open_spot_location = LocationGlobalRelative(lat, lon, 10)
 
