@@ -1,0 +1,7 @@
+from GoPro import GoPro
+
+camera = GoPro()
+
+camera.take_picture()
+
+camera.download_photo()

@@ -4,16 +4,16 @@ from GoPro import GoPro
 import os
 
 class Location(object):
-	def __init__(self, lat, lon, h):
+        def __init__(self, lat, lon, h):
 		self.lat = lat
 		self.lon = lon
 		self.height = h
- go = GoPro()
- if os.path.isfile('./localPicture.png'):
- 	os.remove('./localPicture.png')	
- go.take_picture()
+        go = GoPro()
+        if os.path.isfile('./localPicture.png'):
+                os.remove('./localPicture.png')	
+        go.take_picture()
 # Dowloads into the file "localPicture.png"
- go.download_photo()
+go.download_photo()
 #######################################################################$
 # Pass Photo To Image Recognition
 #######################################################################$

@@ -59,8 +59,8 @@ def create_vehicle():
 
 if __name__ == "__main__":
 
-	vehicle = create_vehicle()
-	photo_location = LocationGlobalRelative(SB_Lat, SB_Lon, 30)
+	#vehicle = create_vehicle()
+	#photo_location = LocationGlobalRelative(SB_Lat, SB_Lon, 30)
 	#vehicle.simple_goto(photo_location)
 
 	#dist = get_distance_metres(vehicle.location.global_frame, photo_location)
@@ -73,18 +73,19 @@ if __name__ == "__main__":
 	##############################################################################################
 	# TAKE PHOTO - At this point, drone should be hovering 30 metres above the specificed location
 	##############################################################################################
-	go = GoPro()
-	go.take_picture()
+	#go = GoPro()
+	#go.take_picture()
 	# Dowloads into the file "localPicture.jpg"
-	go.download_photo()
+	#go.download_photo()
 	##############################################################################################
 	# Pass Photo To Image Recognition
 	##############################################################################################
-	vision = CVision('./localPicture.jpg', './imgRecognize/target.JPG')
-	lat, lon = vision.get_coordinates(target_altitude, vehicle.location.global_frame) # pass in vehicle.location
+	vision = CVision('./localPicture.png', './imgRecognize/target.jpg')
+        print vision.find_image()
+	#lat, lon = vision.get_coordinates(target_altitude, vehicle.location.global_frame) # pass in vehicle.location
 
 
-	open_spot_location = LocationGlobalRelative(lat, lon, 10)
+	#open_spot_location = LocationGlobalRelative(lat, lon, 10)
 	#vehicle.simple_goto(open_spot_location)
 	#dist = get_distance_metres(vehicle.location.global_frame, open_spot_location)
 	#while(dist > 5):
@@ -94,8 +95,8 @@ if __name__ == "__main__":
 	#print "Arrived At Open Spot"
 	#time.sleep(30)
 
-	vehicle.mode = VehicleMode("LAND")
-	time.sleep(10)
-	vehicle.close()
+	#vehicle.mode = VehicleMode("LAND")
+	#time.sleep(10)
+	#vehicle.close()
 
 	print("Program Complete")
