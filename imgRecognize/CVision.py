@@ -101,6 +101,7 @@ class CVision(object):
             plt.suptitle(meth)
             plt.show()
 
+        print top_left, bottom_right
         return top_left, bottom_right
 
     def prep_image(self):
@@ -134,13 +135,13 @@ class CVision(object):
         # now convert from m to degrees
         dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
         dh = self.get_dheight(height, pic_height, y) / 1.113195e5
-        return current_location.lat + dw, current_location.lon + dh
+        return current_location.lat + dh, current_location.lon + dw
 
     def get_dwidth(self, height, pic_width, x):
         # uses FOV angle to find the real life distance of half the picture
-        opp = math.tan(118.2 * 2 * math.pi) * height 
+        opp = math.tan(118.2 * math.pi / 180.0) * height 
         # ratio of real life to picture
-        ratio = 2 * opp / pic_width 
+        ratio = 2.0 * opp / pic_width 
         # center of picture in pixels
         center = pic_width / 2
         # difference between found spot and center of picture
@@ -150,9 +151,9 @@ class CVision(object):
 
     def get_dheight(self, height, pic_height, y):
         # uses FOV angle to find the real life distance of half the picture
-        opp = math.tan(69.5 * 2 * math.pi) * height 
+        opp = math.tan(69.5 * math.pi / 180.0) * height 
         # ratio of real life to picture
-        ratio = 2 * opp / pic_height
+        ratio = 2.0 * opp / pic_height
         # center of picture in pixels
         center = pic_height / 2
         # difference between found spot and center of picture
