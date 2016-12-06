@@ -11,7 +11,7 @@ import numpy as np
 from matplotlib import pyplot as plt 
 import sys
 import os
-import math
+# import math
 
 # Example use: python CVision.py small.jpg find.JPG
 
