@@ -29,6 +29,9 @@ class CVision(object):
         # self.methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR', 'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
         self.methods = ['cv2.TM_CCOEFF']
 
+    def __del__(self):
+        pass
+
     def set_image(self, image, gray = True):
         # so the interface can change the images
         if image is not None and os.path.isfile(image):
