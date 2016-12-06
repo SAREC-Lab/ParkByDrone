@@ -75,8 +75,8 @@ class CVision(object):
         if tl[0] is not 0 and tl[1] is not 0:
             return tl
         pic_width, pic_height = self.get_image_size()
-        # if no picture is found then return the center of image
-        return pic_width/2, pic_height/2
+        # if no picture is found then return a bad value
+        return -1, -1
 
     def use_method(self, meth):
         method = eval(meth)
@@ -132,10 +132,15 @@ class CVision(object):
         pic_height, pic_width = self.get_image_size()
         # self.plot = True
         x,y = self.find_image()
-        # now convert from m to degrees
-        dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
-        dh = self.get_dheight(height, pic_height, y) / 1.113195e5
-        return current_location.lat + dh, current_location.lon + dw
+        if x is not -1 and y is not -1:
+            # now convert from m to degrees
+            dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
+            dh = self.get_dheight(height, pic_height, y) / 1.113195e5
+            # assume the drone is facing north and compute new coordinates
+            return current_location.lat - dh, current_location.lon + dw
+        else:
+            # give back 0,0 to signify keep flying for the drone
+            return 0,0
 
     def get_dwidth(self, height, pic_width, x):
         # uses FOV angle to find the real life distance of half the picture
