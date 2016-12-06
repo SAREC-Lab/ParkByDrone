@@ -21,7 +21,7 @@ class CVision(object):
         self.template = None
         self.width = None
         self.height = None
-        self.plot = False
+        self.plot = True
         self.image_str = image
         self.template_str = template
         self.set_image(image)
@@ -130,7 +130,7 @@ class CVision(object):
 
     def get_coordinates(self, height, current_location):
         pic_height, pic_width = self.get_image_size()
-        self.plot = True
+        # self.plot = True
         x,y = self.find_image()
         # now convert from m to degrees
         dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
