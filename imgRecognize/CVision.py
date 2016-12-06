@@ -139,7 +139,8 @@ class CVision(object):
 
     def get_dwidth(self, height, pic_width, x):
         # uses FOV angle to find the real life distance of half the picture
-        opp = math.tan(118.2 * math.pi / 180.0) * height 
+        # opp = math.tan(118.2 / 2 * math.pi / 180.0) * height 
+        opp = 1.670878244512379 * height
         # ratio of real life to picture
         ratio = 2.0 * opp / pic_width 
         # center of picture in pixels
@@ -151,7 +152,8 @@ class CVision(object):
 
     def get_dheight(self, height, pic_height, y):
         # uses FOV angle to find the real life distance of half the picture
-        opp = math.tan(69.5 * math.pi / 180.0) * height 
+        # opp = math.tan(69.5 / 2 * math.pi / 180.0) * height 
+        opp = 0.693724684259 * height
         # ratio of real life to picture
         ratio = 2.0 * opp / pic_height
         # center of picture in pixels
