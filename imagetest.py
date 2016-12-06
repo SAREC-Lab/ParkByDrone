@@ -25,6 +25,7 @@ vision = CVision('./imgProcess/testParkingLot.png', './photos/target.JPG')
 test = Location(41.00, 42.00, 0)
 print vision.get_coordinates(30, test)
 
+# go.close()
 
 # open_spot_location = LocationGlobalRelative(lat, lon, 10)
 
