@@ -32,6 +32,6 @@ class GoPro(object):
 
 	def download_photo(self):
 		# sends get requets to go pro server to retrieve a photo
-		imgLocation = "http://10.5.5.9:8080/videos/DCIM/100GOPRO/GOPR00"+str(GoPro.photo_number)+".JPG"	
-		#print imgLocation
+		imgLocation = "http://10.5.5.9:8080/videos/DCIM/100GOPRO/GOPR0"+str(GoPro.photo_number)+".JPG"	
+		print imgLocation
 		urllib.urlretrieve(imgLocation, "localPicture.jpg")

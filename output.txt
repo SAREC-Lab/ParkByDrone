@@ -1,0 +1,2 @@
+
+Connecting to vehicle on: /dev/ttyACM0,57600

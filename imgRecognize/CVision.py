@@ -134,10 +134,10 @@ class CVision(object):
         x,y = self.find_image()
         if x is not -1 and y is not -1:
             # now convert from m to degrees
-            dw = self.get_dwidth(height, pic_width, x) / 1.113195e5
-            dh = self.get_dheight(height, pic_height, y) / 1.113195e5
+            dw = float(float(self.get_dwidth(height, pic_width, x)) / float(1.113195e5))
+            dh = float(float(self.get_dheight(height, pic_height, y)) /float( 1.113195e5))
             # assume the drone is facing north and compute new coordinates
-            return current_location.lat - dh, current_location.lon + dw
+            return float(float(current_location.lat) - float(dh)), float(float(current_location.lon) + float(dw))
         else:
             # give back 0,0 to signify keep flying for the drone
             return 0,0

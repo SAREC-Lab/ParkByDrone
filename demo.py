@@ -13,3 +13,4 @@ if not os.path.isfile('localPicture.jpg'):
     print "Error: Image not downloaded"
     exit(1)
 vision = CVision('localPicture.jpg', './photos/target.JPG')
+vision.find_image()

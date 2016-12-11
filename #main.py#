@@ -6,14 +6,29 @@ import math
 # Coordinates of the SB flying club
 SB_Lat = 41.519205
 SB_Lon = -86.239949
-connection_string = "/dev/ttyUSB0,57600"
+connection_string = "/dev/ttyACM0,57600"
 target_altitude = 30 # flight altitude in meters
 
 def create_vehicle():
 	# Connect to the Vehicle. 
 	#   Set `wait_ready=True` to ensure default attributes are populated before `connect()` returns.
 	print "\nConnecting to vehicle on: %s" % connection_string
-	vehicle = connect(connection_string, wait_ready=True)
+	vehicle = connect(connection_string, wait_ready=True, heartbeat_timeout=30 )
+
+	vehicle.mode = VehicleMode("GUIDED")
+
+	vehicle.wait_ready()
+
+	# Get some vehicle attributes (state)
+	print "Get some vehicle attribute values:"
+	print " GPS: %s" % vehicle.gps_0
+	print " Battery: %s" % vehicle.battery
+	print " Last Heartbeat: %s" % vehicle.last_heartbeat
+	print " Is Armable?: %s" % vehicle.is_armable
+	print " System status: %s" % vehicle.system_status.state
+	print " Mode: %s" % vehicle.mode.name    # settable
+	print " Stable version %s" %vehicle.version.is_stable()
+	print " Vehicle version %s" %vehicle.version
 
 
 	print "Arming motors"
@@ -44,9 +59,9 @@ def create_vehicle():
 
 if __name__ == "__main__":
 
-        #time.sleep(30)
+        time.sleep(30)
 	vehicle = create_vehicle()
-	photo_location = LocationGlobalRelative(vehicle.location.global_relative_frame.lat, vehicle.location.global_relative_frame.lon, 30)
+	photo_location = LocationGlobalRelative(SB_Lat, SB_Lon, 30)
 	vehicle.simple_goto(photo_location)
 
 	dist = get_distance_metres(vehicle.location.global_frame, photo_location)
@@ -68,7 +83,7 @@ if __name__ == "__main__":
 	##############################################################################################
 	vision = CVision('./localPicture.png', './imgRecognize/target.jpg')
         print vision.find_image()
-	lat, lon = vision.get_coordinates(target_altitude, vehicle.location.global_frame) # pass in vehicle.location
+	float(lat), float(lon) = vision.get_coordinates(target_altitude, vehicle.location.global_frame) # pass in vehicle.location
         
 
 	open_spot_location = LocationGlobalRelative(float(lat), float(lon), 10)
