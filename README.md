@@ -2,6 +2,7 @@
 A theoretical Parking Service which would use drones to identify an open parking spot in a lot, and lead drivers to it.
 
 Documentation:
+
 General Overview and Presentation - https://drive.google.com/open?id=0B-zo-eOGnE40SGtvZVdubGRYSFE
 
 Process Requirements and Sprints - https://drive.google.com/open?id=11uUz9kd_P_PbFH5JNoKpNDjLea5hZQDU7VKTEiS-CuE
